@@ -112,5 +112,5 @@ class Game_2048:
 
 
 ob = Game_2048()
-ob.move_up()
+#ob.move_up()
 ob.move()
