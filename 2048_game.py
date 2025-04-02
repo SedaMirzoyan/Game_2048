@@ -2,6 +2,7 @@ import random
 import keyboard
 
 
+board_size = 4
 first_num = 2
 second_num = 4
 #empty_place = 0
@@ -12,18 +13,17 @@ class Game_2048:
                     [0, 0, 0, 0],
                     [0, 0, 0, 0],
                     [0, 0, 0, 0] ]
-        self.first_x = random.randint(0, 3)
-        self.first_y = random.randint(0, 3)
-        self.second_x = random.randint(0, 3)
-        self.second_y = random.randint(0, 3)
+        self.first_x  = random.randint(0, board_size-1)
+        self.first_y = random.randint(0, board_size-1)
+        self.second_x, self.second_y = 0, 0
         #self.directions = { "right": [0, 1], "down": [1, 0], "left": [0, -1], "up": [-1, 0] }
         self.directions = { "right": (0, 1), "down": (1, 0), "left": (0, -1), "up": (-1, 0) }
 
         while (self.second_x == self.first_x):
-            self.second_x = random.randint(0,3)
+            self.second_x = random.randint(0,board_size-1)
 
         while (self.second_y == self.first_y):
-            self.second_y = random.randint(0,3)
+            self.second_y = random.randint(0,board_size-1)
 
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
@@ -50,6 +50,32 @@ class Game_2048:
                 self.move_down()
 
 
+    def set_num(self):
+        num_coords = []
+        all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
+        new_num_x = 0
+        new_num_y = 0
+        random_num = 2
+
+        while True:
+            random_num = random.randint(2,4)
+            if((random_num == 2) or (random_num == 4)):
+                break
+        print("random_num", random_num)
+
+        for coord in all_coords:
+            while((new_num_x == coord[0]) or (new_num_y == coord[1])):
+                new_num_x = random.randint(0,board_size-1)
+                #print("new_num_x", new_num_x)
+                new_num_y = random.randint(0,board_size-1)
+                #print("new_num_y", new_num_y)
+            break
+        num_coords.append(new_num_x)
+        num_coords.append(new_num_y)
+        all_coords.append(num_coords)
+        print(all_coords)
+
+        self.m_board[new_num_x][new_num_y] = random_num
 
 
     def move_up(self):
@@ -75,18 +101,22 @@ class Game_2048:
             i_second += self.directions[dir_key][0] 
 
         
-        for i in range(n-1, -1, -1): #0
+        for i in range(n-1, -1, -1): 
             for j in range(n-1, -1, -1):
-                self.m_board[i-1][j] = self.m_board[i][j]
-                self.m_board[i][j] = 0
-                if(prev_first_x != 0):
-                    print("prev_first_x = ", prev_first_x, "j = ", j, "self.m_board[prev_first_x][j]", self.m_board[prev_first_x][j])
-                    self.m_board[prev_first_x][j] = 0
-                elif(prev_second_x != 0):
-                    print("prev_second_x = ", prev_second_x, "j = ", j, "self.m_board[prev_second_x][j]", self.m_board[prev_second_x][j])
-                    self.m_board[prev_second_x][j] = 0
+                if(self.m_board[i][j] == 0):
+                    self.m_board[i-1][j] = self.m_board[i][j]
+                    self.m_board[i][j] = 0
+                    if(prev_first_x != 0):
+                        #print("prev_first_x = ", prev_first_x, "j = ", j, "self.m_board[prev_first_x][j]", self.m_board[prev_first_x][j])
+                        self.m_board[prev_first_x][j] = 0
+                    elif(prev_second_x != 0):
+                        #print("prev_second_x = ", prev_second_x, "j = ", j, "self.m_board[prev_second_x][j]", self.m_board[prev_second_x][j])
+                        self.m_board[prev_second_x][j] = 0
+                else:
+                    pass
 
 
+        self.set_num()
         #self.m_board[prev_first_x][self.first_y] = 0
         #self.m_board[prev_second_x][self.second_y] = 0
 
