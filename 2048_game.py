@@ -1,5 +1,6 @@
 import random
 import keyboard
+import msvcrt as m
 
 
 board_size = 4
@@ -43,8 +44,16 @@ class Game_2048:
                 print("right")
                 self.move_right()
             elif keyboard.is_pressed("up arrow"):
-                #print("up")
-                self.move_up()      
+                if(flag == True):
+                    #print("up")
+                    self.move_up()  
+                    #self.set_num()
+                    flag = False   
+                else:
+                    m.getch()
+                    print("up->elif->else")
+                #    self.set_num()
+                #    continue       
             elif keyboard.is_pressed("down arrow"):
                 print("down")
                 self.move_down()
