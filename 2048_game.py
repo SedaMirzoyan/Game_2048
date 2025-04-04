@@ -24,15 +24,15 @@ class Game_2048:
 
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
+
+        self.all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
         print(self.m_board)
 
         
-
     def move(self):
         #n = len(self.m_board)
         #m = len(self.m_board[0])
 
-        flag = True
         while True:
             try:
                 if(m.kbhit()):
@@ -46,14 +46,13 @@ class Game_2048:
                         input_dir = m.getch()
                         if (input_dir == b'K'):             #left arrow
                             print("left")
-                        elif (input_dir == b'M'):             #right arrow
+                        elif (input_dir == b'M'):           #right arrow
                             print("right")
                         elif (input_dir == b'H'):           #up arrow"
                             print("up")
                             self.move_up()
-                            #self.set_num()
-                            self.call_set_num()
-                            continue
+                            self.set_num()
+                            #continue
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
                     else:
@@ -62,7 +61,7 @@ class Game_2048:
             except Exception as e:
                 print("Error occured, wrong key")
             #except KeyBoardInterrupt:
-            #    print("For quitting game please press 'q'")
+            #    print("For quitting the game please press 'q'")
 
 
     def generate_random_num(self):
@@ -70,24 +69,24 @@ class Game_2048:
         print("random_num", random_num)
 
         return random_num
+    
 
-    def set_num(self):
+    def find_coords(self):
         num_coords = []
-        all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
-        new_num_x = 0
-        new_num_y = 0
+        #all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
+        new_num_x, new_num_y = 0, 0
 
-        for coord in all_coords:
+        for coord in self.all_coords:
+        #for coord in all_coords:
             while((new_num_x == coord[0]) or (new_num_y == coord[1])):
                 new_num_x = random.randint(0,board_size-1)
-                #print("new_num_x", new_num_x)
                 new_num_y = random.randint(0,board_size-1)
-                #print("new_num_y", new_num_y)
             break
         num_coords.append(new_num_x)
         num_coords.append(new_num_y)
-        all_coords.append(num_coords)
-        print(all_coords)
+        #all_coords.append(num_coords)
+        self.all_coords.append(num_coords)
+        print(self.all_coords)
 
         #random_num = self.generate_random_num()
         #self.m_board[new_num_x][new_num_y] = random_num
@@ -95,13 +94,15 @@ class Game_2048:
         #print(self.m_board)
         return (new_num_x, new_num_y)
     
-    
 
-    def call_set_num(self):
-        coords_tuple = self.set_num()
+    def set_num(self):
+        coords_tuple = self.find_coords()
+        #print(coords_tuple)
         random_num = self.generate_random_num()
         self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
         print(self.m_board)
+        return self.m_board
+    
 
 
     def move_up(self):
@@ -156,6 +157,7 @@ class Game_2048:
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
         print(self.m_board)  
+        #return self.board
 
 
 
@@ -175,7 +177,7 @@ class Game_2048:
 def main():
  
     ob = Game_2048()
-    #ob.move_up()
+    #ob.print_board()
     print("Enter arrow keys for moving the elements and 'q' for quitting the game")
     ob.move()
     
