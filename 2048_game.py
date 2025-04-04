@@ -1,5 +1,4 @@
 import random
-import keyboard
 import msvcrt as m
 
 
@@ -10,14 +9,11 @@ second_num = 4
 
 class Game_2048:
     def __init__(self):
-        self.m_board = [ [0, 0, 0, 0], 
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0] ]
-        self.first_x  = random.randint(0, board_size-1)
+        self.m_board = [[0 for j in range(board_size)] for i in range(board_size)]
+
+        self.first_x = random.randint(0, board_size-1)
         self.first_y = random.randint(0, board_size-1)
         self.second_x, self.second_y = 0, 0
-        #self.directions = { "right": [0, 1], "down": [1, 0], "left": [0, -1], "up": [-1, 0] }
         self.directions = { "right": (0, 1), "down": (1, 0), "left": (0, -1), "up": (-1, 0) }
 
         while (self.second_x == self.first_x):
@@ -29,48 +25,57 @@ class Game_2048:
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
         print(self.m_board)
+
         
 
     def move(self):
         #n = len(self.m_board)
         #m = len(self.m_board[0])
 
-        
+        flag = True
         while True:
-            if keyboard.is_pressed("left arrow"):
-                print("left")
-                self.move_left() 
-            elif keyboard.is_pressed("right arrow"):
-                print("right")
-                self.move_right()
-            elif keyboard.is_pressed("up arrow"):
-                if(flag == True):
-                    #print("up")
-                    self.move_up()  
-                    #self.set_num()
-                    flag = False   
-                else:
-                    m.getch()
-                    print("up->elif->else")
-                #    self.set_num()
-                #    continue       
-            elif keyboard.is_pressed("down arrow"):
-                print("down")
-                self.move_down()
+            try:
+                if(m.kbhit()):
+                    input_dir = m.getch()
 
+                    if(input_dir == b'q'):
+                        print("Quit the game")
+                        break
+                    
+                    if((input_dir == b'\xe0')):
+                        input_dir = m.getch()
+                        if (input_dir == b'K'):             #left arrow
+                            print("left")
+                        elif (input_dir == b'M'):             #right arrow
+                            print("right")
+                        elif (input_dir == b'H'):           #up arrow"
+                            print("up")
+                            self.move_up()
+                            #self.set_num()
+                            self.call_set_num()
+                            continue
+                        elif (input_dir == b'P'):           #down arrow
+                            print("down")
+                    else:
+                        print("Incorrect input, please enter one of the arrow keys")
+                    
+            except Exception as e:
+                print("Error occured, wrong key")
+            #except KeyBoardInterrupt:
+            #    print("For quitting game please press 'q'")
+
+
+    def generate_random_num(self):
+        random_num = random.choice([2, 4])
+        print("random_num", random_num)
+
+        return random_num
 
     def set_num(self):
         num_coords = []
         all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
         new_num_x = 0
         new_num_y = 0
-        random_num = 2
-
-        while True:
-            random_num = random.randint(2,4)
-            if((random_num == 2) or (random_num == 4)):
-                break
-        print("random_num", random_num)
 
         for coord in all_coords:
             while((new_num_x == coord[0]) or (new_num_y == coord[1])):
@@ -84,10 +89,23 @@ class Game_2048:
         all_coords.append(num_coords)
         print(all_coords)
 
-        self.m_board[new_num_x][new_num_y] = random_num
+        #random_num = self.generate_random_num()
+        #self.m_board[new_num_x][new_num_y] = random_num
+        
+        #print(self.m_board)
+        return (new_num_x, new_num_y)
+    
+    
+
+    def call_set_num(self):
+        coords_tuple = self.set_num()
+        random_num = self.generate_random_num()
+        self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
+        print(self.m_board)
 
 
     def move_up(self):
+        print("calling move up")
         i_first = self.first_x
         i_second = self.second_x
         n = len(self.m_board)
@@ -98,13 +116,14 @@ class Game_2048:
         dir_key = "up"
         i = n - 1
         j = n - 1
+        sum = 0
 
-
+        #shift first element to the 1st row
         while(i_first >= 0):
             self.first_x = i_first 
             i_first += self.directions[dir_key][0] 
 
-
+        #shift second element to the 1st row
         while(i_second >= 0):
             self.second_x = i_second
             i_second += self.directions[dir_key][0] 
@@ -122,13 +141,17 @@ class Game_2048:
                         #print("prev_second_x = ", prev_second_x, "j = ", j, "self.m_board[prev_second_x][j]", self.m_board[prev_second_x][j])
                         self.m_board[prev_second_x][j] = 0
                 else:
-                    pass
+                    if(self.m_board[i-1][j] == self.m_board[i][j]):
+                        print("hiiiiiiiiiiiii")
+                        sum = self.m_board[i-1][j] + self.m_board[i][j]
+                        self.m_board[i-1][j] = sum
+                        self.m_board[i][j] = 0
 
 
-        self.set_num()
+        #self.set_num()         
+
         #self.m_board[prev_first_x][self.first_y] = 0
         #self.m_board[prev_second_x][self.second_y] = 0
-
 
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
@@ -149,7 +172,14 @@ class Game_2048:
 
 
 
+def main():
+ 
+    ob = Game_2048()
+    #ob.move_up()
+    print("Enter arrow keys for moving the elements and 'q' for quitting the game")
+    ob.move()
+    
 
-ob = Game_2048()
-#ob.move_up()
-ob.move()
+
+if __name__=="__main__":
+    main()
