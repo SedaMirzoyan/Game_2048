@@ -28,6 +28,10 @@ class Game_2048:
         self.all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
         print(self.m_board)
 
+
+    #def print_board(self):
+    #    print(self.m_board)
+
         
     def move(self):
         #n = len(self.m_board)
@@ -103,6 +107,15 @@ class Game_2048:
         print(self.m_board)
         return self.m_board
     
+    '''
+    def set_num(self):
+        coords_tuple = self.find_coords()
+        #print(coords_tuple)
+        random_num = self.generate_random_num()
+        self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
+        print(self.m_board)
+        #return self.m_board
+    '''
 
 
     def move_up(self):
