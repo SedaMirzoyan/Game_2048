@@ -53,7 +53,6 @@ class Game_2048:
                             print("up")
                             self.move_up()
                             self.set_num()
-                            #continue
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
                     else:
