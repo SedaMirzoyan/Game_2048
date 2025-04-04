@@ -30,13 +30,10 @@ class Game_2048:
 
 
     #def print_board(self):
-    #    print(self.m_board)
+    #    write print board, remove print from constructor
 
         
     def move(self):
-        #n = len(self.m_board)
-        #m = len(self.m_board[0])
-
         while True:
             try:
                 if(m.kbhit()):
@@ -77,18 +74,15 @@ class Game_2048:
 
     def find_coords(self):
         num_coords = []
-        #all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
         new_num_x, new_num_y = 0, 0
 
         for coord in self.all_coords:
-        #for coord in all_coords:
             while((new_num_x == coord[0]) or (new_num_y == coord[1])):
                 new_num_x = random.randint(0,board_size-1)
-                new_num_y = random.randint(0,board_size-1)
+                new_num_y = random.randint(0,board_size-2)
             break
         num_coords.append(new_num_x)
         num_coords.append(new_num_y)
-        #all_coords.append(num_coords)
         self.all_coords.append(num_coords)
         print(self.all_coords)
 
@@ -101,21 +95,11 @@ class Game_2048:
 
     def set_num(self):
         coords_tuple = self.find_coords()
-        #print(coords_tuple)
         random_num = self.generate_random_num()
         self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
-        print(self.m_board)
+        print("ggggg", self.m_board)
         return self.m_board
     
-    '''
-    def set_num(self):
-        coords_tuple = self.find_coords()
-        #print(coords_tuple)
-        random_num = self.generate_random_num()
-        self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
-        print(self.m_board)
-        #return self.m_board
-    '''
 
 
     def move_up(self):
