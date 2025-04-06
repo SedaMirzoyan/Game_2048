@@ -103,13 +103,16 @@ class Game_2048:
         random_num = self.generate_random_num()
         print("self.all_nums = ", self.all_nums)
         num_list_len = len(self.all_nums)
+        count = 2   #0th and 1st nums are self.first_num and self.second_num
 
         #self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
 
+
         for coord in self.all_coords:
             if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
-                self.m_board[coord[0]][coord[1]] = random_num
-                print("last element ", self.all_nums[num_list_len-1])
+                self.m_board[coord[0]][coord[1]] = self.all_nums[count]
+                count += 1
+                print("count = ", count)
 
         print("all_coords = ", self.all_coords)
         return self.m_board
