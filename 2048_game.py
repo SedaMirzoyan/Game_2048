@@ -100,9 +100,8 @@ class Game_2048:
 
     def set_num(self):
         #coords_tuple = self.find_coords()
-        random_num = self.generate_random_num()
+        self.generate_random_num()
         print("self.all_nums = ", self.all_nums)
-        num_list_len = len(self.all_nums)
         count = 2   #0th and 1st nums are self.first_num and self.second_num
 
         #self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
