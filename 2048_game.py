@@ -26,11 +26,13 @@ class Game_2048:
         self.m_board[self.second_x][self.second_y] = second_num
 
         self.all_coords = [[self.first_x, self.first_y], [self.second_x, self.second_y]]
-        print(self.m_board)
+        self.all_nums = [first_num, second_num]
+        #print(self.m_board)
 
 
-    #def print_board(self):
-    #    write print board, remove print from constructor
+    def print_board(self):
+        for i in self.m_board:
+            print(i)
 
         
     def move(self):
@@ -52,7 +54,9 @@ class Game_2048:
                         elif (input_dir == b'H'):           #up arrow"
                             print("up")
                             self.move_up()
+                            self.find_coords()
                             self.set_num()
+                            self.print_board()
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
                     else:
@@ -68,6 +72,8 @@ class Game_2048:
         random_num = random.choice([2, 4])
         print("random_num", random_num)
 
+        self.all_nums.append(random_num)
+
         return random_num
     
 
@@ -78,7 +84,7 @@ class Game_2048:
         for coord in self.all_coords:
             while((new_num_x == coord[0]) or (new_num_y == coord[1])):
                 new_num_x = random.randint(0,board_size-1)
-                new_num_y = random.randint(0,board_size-2)
+                new_num_y = random.randint(0,board_size-1)
             break
         num_coords.append(new_num_x)
         num_coords.append(new_num_y)
@@ -89,14 +95,23 @@ class Game_2048:
         #self.m_board[new_num_x][new_num_y] = random_num
         
         #print(self.m_board)
-        return (new_num_x, new_num_y)
+        #return (new_num_x, new_num_y)
     
 
     def set_num(self):
-        coords_tuple = self.find_coords()
+        #coords_tuple = self.find_coords()
         random_num = self.generate_random_num()
-        self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
-        print("ggggg", self.m_board)
+        print("self.all_nums = ", self.all_nums)
+        num_list_len = len(self.all_nums)
+
+        #self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
+
+        for coord in self.all_coords:
+            if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
+                self.m_board[coord[0]][coord[1]] = random_num
+                print("last element ", self.all_nums[num_list_len-1])
+
+        print("all_coords = ", self.all_coords)
         return self.m_board
     
 
@@ -152,7 +167,7 @@ class Game_2048:
 
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
-        print(self.m_board)  
+        #print(self.m_board)  
         #return self.board
 
 
@@ -173,7 +188,7 @@ class Game_2048:
 def main():
  
     ob = Game_2048()
-    #ob.print_board()
+    ob.print_board()
     print("Enter arrow keys for moving the elements and 'q' for quitting the game")
     ob.move()
     
