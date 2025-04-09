@@ -62,10 +62,10 @@ class Game_2048:
                     else:
                         print("Incorrect input, please enter one of the arrow keys")
                     
-            except Exception as e:
-                print("Error occured, wrong key")
-            #except KeyBoardInterrupt:
-            #    print("For quitting the game please press 'q'")
+            #except Exception as e:
+            #    print("Error occured, wrong key")
+            except KeyboardInterrupt:
+                print("For quitting the game please press 'q'")
 
 
     def generate_random_num(self):
@@ -77,41 +77,37 @@ class Game_2048:
         return random_num
     
 
+    
     def find_coords(self):
         num_coords = []
         new_num_x, new_num_y = 0, 0
 
-        for coord in self.all_coords:
-            while((new_num_x == coord[0]) or (new_num_y == coord[1])):
-                new_num_x = random.randint(0,board_size-1)
-                new_num_y = random.randint(0,board_size-1)
+        while(True):
+            new_num_x = random.randint(0,board_size-1)
+            new_num_y = random.randint(0,board_size-1)
+            if(self.m_board[new_num_x][new_num_y] != 0):
+                continue
             break
         num_coords.append(new_num_x)
         num_coords.append(new_num_y)
         self.all_coords.append(num_coords)
         print(self.all_coords)
 
-        #random_num = self.generate_random_num()
-        #self.m_board[new_num_x][new_num_y] = random_num
-        
-        #print(self.m_board)
-        #return (new_num_x, new_num_y)
+
     
 
     def set_num(self):
         #coords_tuple = self.find_coords()
         self.generate_random_num()
         print("self.all_nums = ", self.all_nums)
-        count = 2   #0th and 1st nums are self.first_num and self.second_num
 
         #self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
 
 
-        for coord in self.all_coords:
+        for ind, coord in enumerate(self.all_coords):
             if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
-                self.m_board[coord[0]][coord[1]] = self.all_nums[count]
-                count += 1
-                print("count = ", count)
+                self.m_board[coord[0]][coord[1]] = self.all_nums[ind]
+                print("index = ", ind)
 
         print("all_coords = ", self.all_coords)
         return self.m_board
