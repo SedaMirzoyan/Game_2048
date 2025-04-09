@@ -36,7 +36,8 @@ class Game_2048:
 
         
     def move(self):
-        while True:
+        #flag = self.is_full()
+        while(True):
             try:
                 if(m.kbhit()):
                     input_dir = m.getch()
@@ -44,7 +45,7 @@ class Game_2048:
                     if(input_dir == b'q'):
                         print("Quit the game")
                         break
-                    
+
                     if((input_dir == b'\xe0')):
                         input_dir = m.getch()
                         if (input_dir == b'K'):             #left arrow
@@ -103,26 +104,24 @@ class Game_2048:
         self.generate_random_num()
         print("self.all_nums = ", self.all_nums)
 
-        #self.m_board[coords_tuple[0]][coords_tuple[1]] = random_num
-
 
         for ind, coord in enumerate(self.all_coords):
             #if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
             if(self.m_board[coord[0]][coord[1]] == 0):
                 self.m_board[coord[0]][coord[1]] = self.all_nums[ind]
-                print("index = ", ind)
+                #print("index = ", ind)
 
         print("all_coords = ", self.all_coords)
         return self.m_board
     
 
 
+    
     def move_up(self):
         print("calling move up")
         i_first = self.first_x
         i_second = self.second_x
         n = len(self.m_board)
-        #print("n = ", n)
 
         prev_first_x = self.first_x
         prev_second_x = self.second_x
@@ -161,7 +160,64 @@ class Game_2048:
                         self.m_board[i][j] = 0
 
 
-        #self.set_num()         
+        #self.m_board[prev_first_x][self.first_y] = 0
+        #self.m_board[prev_second_x][self.second_y] = 0
+
+        self.m_board[self.first_x][self.first_y] = first_num
+        self.m_board[self.second_x][self.second_y] = second_num
+        #print(self.m_board)  
+    
+
+
+    def is_full(self):
+        for i in range(len(self.m_board)):
+            for j in  range(len(self.m_board)):
+                if(self.m_board[i][j] == 0):
+                    return False
+        return True
+
+
+    '''         
+    #for test
+    def move_up(self):
+        print("calling move up")
+        i_first = 0
+        n = len(self.m_board)
+        #print("n = ", n)
+
+        prev_first_x = 0
+        prev_second_x = 0
+        dir_key = "up"
+        i = n - 1
+        j = n - 1
+        sum = 0
+
+        for coord in self.all_coords:
+            i_first = coord[0]
+            while(i_first >= 0):
+                self.first_x = i_first 
+                i_first += self.directions[dir_key][0] 
+
+
+        
+        for i in range(n-1, -1, -1): 
+            for j in range(n-1, -1, -1):
+                if(self.m_board[i][j] == 0):
+                    self.m_board[i-1][j] = self.m_board[i][j]
+                    self.m_board[i][j] = 0
+                    if(prev_first_x != 0):
+                        #print("prev_first_x = ", prev_first_x, "j = ", j, "self.m_board[prev_first_x][j]", self.m_board[prev_first_x][j])
+                        self.m_board[prev_first_x][j] = 0
+                    elif(prev_second_x != 0):
+                        #print("prev_second_x = ", prev_second_x, "j = ", j, "self.m_board[prev_second_x][j]", self.m_board[prev_second_x][j])
+                        self.m_board[prev_second_x][j] = 0
+                else:
+                    if(self.m_board[i-1][j] == self.m_board[i][j]):
+                        print("hiiiiiiiiiiiii")
+                        sum = self.m_board[i-1][j] + self.m_board[i][j]
+                        self.m_board[i-1][j] = sum
+                        self.m_board[i][j] = 0
+
 
         #self.m_board[prev_first_x][self.first_y] = 0
         #self.m_board[prev_second_x][self.second_y] = 0
@@ -169,8 +225,7 @@ class Game_2048:
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
         #print(self.m_board)  
-        #return self.board
-
+    '''
 
 
     def move_left(self):   
