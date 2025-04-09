@@ -61,11 +61,13 @@ class Game_2048:
                             print("down")
                     else:
                         print("Incorrect input, please enter one of the arrow keys")
+            except:
+                pass
                     
             #except Exception as e:
-            #    print("Error occured, wrong key")
-            except KeyboardInterrupt:
-                print("For quitting the game please press 'q'")
+                #print("Error occured, wrong key")
+            #except KeyboardInterrupt:
+                #print("For quitting the game please press 'q'")
 
 
     def generate_random_num(self):
@@ -105,7 +107,8 @@ class Game_2048:
 
 
         for ind, coord in enumerate(self.all_coords):
-            if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
+            #if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
+            if(self.m_board[coord[0]][coord[1]] == 0):
                 self.m_board[coord[0]][coord[1]] = self.all_nums[ind]
                 print("index = ", ind)
 
