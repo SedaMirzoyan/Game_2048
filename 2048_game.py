@@ -116,7 +116,7 @@ class Game_2048:
     
 
 
-    
+    '''
     def move_up(self):
         print("calling move up")
         i_first = self.first_x
@@ -166,6 +166,7 @@ class Game_2048:
         self.m_board[self.first_x][self.first_y] = first_num
         self.m_board[self.second_x][self.second_y] = second_num
         #print(self.m_board)  
+        '''
     
 
 
@@ -177,7 +178,7 @@ class Game_2048:
         return True
 
 
-    '''         
+   
     #for test
     def move_up(self):
         print("calling move up")
@@ -185,47 +186,44 @@ class Game_2048:
         n = len(self.m_board)
         #print("n = ", n)
 
-        prev_first_x = 0
-        prev_second_x = 0
+        prev_x = 0
         dir_key = "up"
         i = n - 1
         j = n - 1
         sum = 0
 
+        count = 0
         for coord in self.all_coords:
             i_first = coord[0]
+            print("i_first ", i_first)
             while(i_first >= 0):
                 self.first_x = i_first 
+                self.second_x = i_first 
+                #self.all_coords[count] = i_first 
                 i_first += self.directions[dir_key][0] 
-
+                #count += 1
 
         
         for i in range(n-1, -1, -1): 
             for j in range(n-1, -1, -1):
                 if(self.m_board[i][j] == 0):
+                    prev_x = i 
                     self.m_board[i-1][j] = self.m_board[i][j]
                     self.m_board[i][j] = 0
-                    if(prev_first_x != 0):
-                        #print("prev_first_x = ", prev_first_x, "j = ", j, "self.m_board[prev_first_x][j]", self.m_board[prev_first_x][j])
-                        self.m_board[prev_first_x][j] = 0
-                    elif(prev_second_x != 0):
-                        #print("prev_second_x = ", prev_second_x, "j = ", j, "self.m_board[prev_second_x][j]", self.m_board[prev_second_x][j])
-                        self.m_board[prev_second_x][j] = 0
-                else:
-                    if(self.m_board[i-1][j] == self.m_board[i][j]):
+                    if(prev_x != 0):
+                        self.m_board[prev_x][j] = 0
+                elif(self.m_board[i-1][j] == self.m_board[i][j]):
                         print("hiiiiiiiiiiiii")
                         sum = self.m_board[i-1][j] + self.m_board[i][j]
                         self.m_board[i-1][j] = sum
                         self.m_board[i][j] = 0
+                else:
+                    self.m_board[i-1][j] = self.m_board[i][j]
+                    self.m_board[i][j] = 0
 
-
-        #self.m_board[prev_first_x][self.first_y] = 0
-        #self.m_board[prev_second_x][self.second_y] = 0
 
         self.m_board[self.first_x][self.first_y] = first_num
-        self.m_board[self.second_x][self.second_y] = second_num
-        #print(self.m_board)  
-    '''
+        self.m_board[self.second_x][self.second_y] = second_num    
 
 
     def move_left(self):   
