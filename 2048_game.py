@@ -55,6 +55,7 @@ class Game_2048:
                         elif (input_dir == b'H'):           #up arrow"
                             print("up")
                             self.move_up()
+                            #self.print_board()
                             self.find_coords()
                             self.set_num()
                             self.print_board()
@@ -175,7 +176,7 @@ class Game_2048:
     #for test
     def move_up(self):
         print("calling move up")
-        i_first = 0
+        x_coord = 0
         n = len(self.m_board)
 
         prev_x = 0
@@ -184,19 +185,20 @@ class Game_2048:
         j = n - 1
         sum = 0
 
-        count = 0
-        for coord in self.all_coords:
-            i_first = coord[0]
-            while(i_first >= 0):
-                self.first_x = i_first 
-                self.second_x = i_first 
-                #self.all_coords[count] = i_first 
-                i_first += self.directions[dir_key][0] 
-                #count += 1
 
-        
+        for ind, elem in enumerate(self.all_coords):    #working
+            x_coord = elem[0]
+            print( "x_coord in for = ", x_coord)
+            while(x_coord > 0):
+                x_coord += self.directions[dir_key][0] 
+                self.all_coords[ind][0] = x_coord
+                print("self.all_coords[ind][0]",  self.all_coords[ind][0] , "= x_coord = ", x_coord, "index = ", ind)
+
+     
+
         for i in range(n-1, -1, -1): 
             for j in range(n-1, -1, -1):
+                #print("double for")
                 if(self.m_board[i][j] == 0):
                     prev_x = i 
                     self.m_board[i-1][j] = self.m_board[i][j]
@@ -211,10 +213,8 @@ class Game_2048:
                 else:
                     self.m_board[i-1][j] = self.m_board[i][j]
                     self.m_board[i][j] = 0
-
-
-        self.m_board[self.first_x][self.first_y] = first_num
-        self.m_board[self.second_x][self.second_y] = second_num    
+        
+         
         
 
 
