@@ -173,7 +173,6 @@ class Game_2048:
 
 
     
-    #for test
     def move_up(self):
         print("calling move up")
         x_coord = 0
@@ -185,17 +184,46 @@ class Game_2048:
         j = n - 1
         sum = 0
 
-
-        for ind, elem in enumerate(self.all_coords):    #working
+        '''
+        ##working
+        for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
             print( "x_coord in for = ", x_coord)
             while(x_coord > 0):
                 x_coord += self.directions[dir_key][0] 
                 self.all_coords[ind][0] = x_coord
                 print("self.all_coords[ind][0]",  self.all_coords[ind][0] , "= x_coord = ", x_coord, "index = ", ind)
+        ##
+        '''
 
+        for ind, elem in enumerate(self.all_coords):    
+            x_coord = elem[0]
+            y_coord = elem[1]
+            #print( "x_coord in for = ", x_coord)
+            while(x_coord > 0):
+                prev_x_coord = x_coord
+                print("prev_x_coord ", prev_x_coord)
+                x_coord += self.directions[dir_key][0] 
+                self.all_coords[ind][0] = x_coord
+                current_x_coord = self.all_coords[ind][0]
+                print("current_x_coord ", current_x_coord)
+                #print("self.all_coords[ind][0]",  self.all_coords[ind][0] , "= x_coord = ", x_coord, "index = ", ind)
+                if(self.m_board[current_x_coord][y_coord] == 0):
+                    self.m_board[current_x_coord][y_coord] = self.all_nums[ind]
+                    self.m_board[prev_x_coord][y_coord] = 0
+
+                elif(self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord]):
+                    print("nums are equal")
+                    sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
+                    self.m_board[current_x_coord][y_coord] = sum
+                    self.m_board[prev_x_coord][y_coord] = 0
+                else:
+                    self.m_board[current_x_coord][y_coord] = self.m_board[current_x_coord-1][y_coord]
+                    self.m_board[prev_x_coord-1][y_coord] = 0
+                
      
 
+        '''
         for i in range(n-1, -1, -1): 
             for j in range(n-1, -1, -1):
                 #print("double for")
@@ -213,7 +241,7 @@ class Game_2048:
                 else:
                     self.m_board[i-1][j] = self.m_board[i][j]
                     self.m_board[i][j] = 0
-        
+        '''
          
         
 
