@@ -215,13 +215,13 @@ class Game_2048:
                      and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
                     print("nums are NOT equal")
                     self.m_board[current_x_coord+1][y_coord] = self.m_board[prev_x_coord][y_coord]
-                    self.m_board[prev_x_coord][y_coord] = 0
+                    #self.m_board[prev_x_coord][y_coord] = 0
                     #self.m_board[prev_x_coord+1][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord + 1
                     break
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
-                     and (self.m_board[current_x_coord][y_coord] != 0)): 
-                     #and (self.m_board[current_x_coord][y_coord] == self.m_board[current_x_coord-1][y_coord])):
+                     and (self.m_board[current_x_coord][y_coord] != 0)
+                     and (current_x_coord + 1 == prev_x_coord)):
                     print("nums are equal")
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
