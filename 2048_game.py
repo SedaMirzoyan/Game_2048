@@ -41,7 +41,6 @@ class Game_2048:
             try:
                 if(m.kbhit()):
                     input_dir = m.getch()
-
                     if(input_dir == b'q'):
                         print("Quit the game")
                         break
@@ -100,7 +99,6 @@ class Game_2048:
     def set_num(self):
         self.generate_random_num()
         print("self.all_nums = ", self.all_nums)
-
 
         for ind, coord in enumerate(self.all_coords):
             #if(((coord[0] != self.first_x) and (coord[0] != self.second_x)) and ((coord[1] != self.first_y) and (coord[1] != self.second_y))): 
@@ -199,23 +197,31 @@ class Game_2048:
                 prev_x_coord = x_coord
                 print("prev_x_coord ", prev_x_coord)
                 x_coord += self.directions[dir_key][0] 
-                self.all_coords[ind][0] = x_coord
-                current_x_coord = self.all_coords[ind][0]
+                #self.all_coords[ind][0] = x_coord              #b4
+                #current_x_coord = self.all_coords[ind][0]      #b4
+                current_x_coord = x_coord                       #after
                 print("current_x_coord ", current_x_coord)
                 #print("self.all_coords[ind][0]",  self.all_coords[ind][0] , "= x_coord = ", x_coord, "index = ", ind)
                 if((self.m_board[current_x_coord][y_coord] == 0) and (self.m_board[prev_x_coord][y_coord] != 0)):
                     self.m_board[current_x_coord][y_coord] = self.m_board[prev_x_coord][y_coord]
                     self.m_board[prev_x_coord][y_coord] = 0
+                    #continue
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)):
                     print("nums are equal")
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
+                    #self.m_board[current_x_coord-1][y_coord] = self.m_board[prev_x_coord][y_coord]
                     self.m_board[prev_x_coord][y_coord] = 0
+                    continue
                 elif((self.m_board[current_x_coord][y_coord] != self.m_board[prev_x_coord][y_coord])
-                     and (self.m_board[current_x_coord][y_coord] != 0) and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
+                     and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
+                    print("nums are NOT equal")
                     self.m_board[current_x_coord-1][y_coord] = self.m_board[prev_x_coord][y_coord]
-                    self.m_board[prev_x_coord-1][y_coord] = 0
+                    self.m_board[prev_x_coord][y_coord] = 0
+                    self.m_board[prev_x_coord+1][y_coord] = 0
+                    continue
+                self.all_coords[ind][0] = current_x_coord           #after
                 
      
 
