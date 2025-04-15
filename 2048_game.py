@@ -56,15 +56,16 @@ class Game_2048:
                             print("up")
                             self.move_up()
                             #self.print_board()
-                            self.find_max()
-                            if((self.find_max() == True)):
+                            fm = self.find_max()
+                            if((fm == True)):
                                 self.print_board()
                                 break
                             self.find_coords()
                             self.set_num()
                             self.print_board()
-                            self.is_full()
-                            if((self.is_full() == True)):
+                            bf = self.is_full()
+                            if((bf == True)):
+                                print("Board is full, you lost")
                                 break
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
@@ -127,8 +128,8 @@ class Game_2048:
                 else:
                     flag = False
 
-        if(flag == True):
-            print("Board is full, you lost")
+        #if(flag == True):
+        #    print("Board is full, you lost")
 
         return flag
     
@@ -144,7 +145,7 @@ class Game_2048:
         
         #if(max >= 2048):
         if(max >= 16):
-            print("You win")
+            print(f"You win, your score is {max}")
             flag = True
 
         return flag
