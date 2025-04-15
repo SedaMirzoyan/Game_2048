@@ -139,7 +139,7 @@ class Game_2048:
         max = self.m_board[0][0]
         for i in range(board_size):
             for j in range(board_size):
-                if(self.m_board[0][0] > max):
+                if(self.m_board[i][j] > max):
                     print("max = ", max)
                     max = self.m_board[i][j]
         
@@ -193,6 +193,8 @@ class Game_2048:
                     self.all_coords[ind][0] = current_x_coord          
                     self.all_coords.pop()                 
                     break
+            
+            
                 
                 
      
