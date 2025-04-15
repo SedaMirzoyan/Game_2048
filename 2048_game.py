@@ -34,17 +34,18 @@ class Game_2048:
         for i in self.m_board:
             print(i)
 
+
         
     def move(self):
-        flag = self.is_full()
-        while(True):
+        board_is_full = self.is_full()
+        max_score = self.find_max()
+        while(not board_is_full or not max_score):
             try:
                 if(m.kbhit()):
                     input_dir = m.getch()
                     if(input_dir == b'q'):
                         print("Quit the game")
                         break
-
                     if((input_dir == b'\xe0')):
                         input_dir = m.getch()
                         if (input_dir == b'K'):             #left arrow
@@ -53,11 +54,15 @@ class Game_2048:
                             print("right")
                         elif (input_dir == b'H'):           #up arrow"
                             print("up")
-                            self.move_up(flag)
+                            self.move_up()
                             #self.print_board()
+                            self.find_max()
                             self.find_coords()
                             self.set_num()
                             self.print_board()
+                            self.is_full()
+                            if((self.is_full() == True) or (self.find_max() == True)):
+                                break
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
                     else:
@@ -91,7 +96,7 @@ class Game_2048:
         num_coords.append(new_num_x)
         num_coords.append(new_num_y)
         self.all_coords.append(num_coords)
-        print(self.all_coords)
+        #print(self.all_coords)
 
 
     
@@ -111,33 +116,45 @@ class Game_2048:
 
 
     def is_full(self):
+        flag = False
         for i in range(len(self.m_board)):
             for j in  range(len(self.m_board)):
-                if(self.m_board[i][j] == 0):
-                    print("Continue")
-                    return True
+                if((self.m_board[i][j] != 0) and (len(self.all_coords) == 16)):
+                    flag = True
                 else:
-                    print("Board is full, Game over")
-                    return False
+                    flag = False
+
+        if(flag == True):
+            print("Board is full, you lost")
+
+        return flag
+    
+
+    def find_max(self):
+        flag = False
+        max = self.m_board[0][0]
+        for i in range(board_size):
+            for j in range(board_size):
+                if(self.m_board[0][0] > max):
+                    print("max = ", max)
+                    max = self.m_board[i][j]
+        
+        #if(max >= 2048):
+        if(max >= 16):
+            print("You win")
+            flag = True
+
+        return flag
+
+
 
 
     
-    def move_up(self, flag):
+    def move_up(self):
         print("calling move up")
         x_coord = 0
         dir_key = "up"
         sum = 0
-        '''
-        ##working
-        for ind, elem in enumerate(self.all_coords):    
-            x_coord = elem[0]
-            print( "x_coord in for = ", x_coord)
-            while(x_coord > 0):
-                x_coord += self.directions[dir_key][0] 
-                self.all_coords[ind][0] = x_coord
-                print("self.all_coords[ind][0]",  self.all_coords[ind][0] , "= x_coord = ", x_coord, "index = ", ind)
-        ##
-        '''
 
         for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
@@ -156,7 +173,7 @@ class Game_2048:
                     #continue
                 elif((self.m_board[current_x_coord][y_coord] != self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
-                    print("nums are NOT equal")
+                    #print("nums are NOT equal")
                     self.m_board[current_x_coord+1][y_coord] = self.m_board[prev_x_coord][y_coord]
                     #self.m_board[prev_x_coord][y_coord] = 0
                     #self.m_board[prev_x_coord+1][y_coord] = 0
@@ -165,7 +182,7 @@ class Game_2048:
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)
                      and (current_x_coord + 1 == prev_x_coord)):
-                    print("nums are equal")
+                    #print("nums are equal")
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
                     self.m_board[prev_x_coord][y_coord] = 0
