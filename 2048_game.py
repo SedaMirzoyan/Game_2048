@@ -57,11 +57,14 @@ class Game_2048:
                             self.move_up()
                             #self.print_board()
                             self.find_max()
+                            if((self.find_max() == True)):
+                                self.print_board()
+                                break
                             self.find_coords()
                             self.set_num()
                             self.print_board()
                             self.is_full()
-                            if((self.is_full() == True) or (self.find_max() == True)):
+                            if((self.is_full() == True)):
                                 break
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
