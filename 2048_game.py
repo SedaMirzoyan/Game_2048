@@ -57,14 +57,14 @@ class Game_2048:
                             self.move_up()
                             #self.print_board()
                             fm = self.find_max()
-                            if((fm == True)):
+                            if(fm == True):
                                 self.print_board()
                                 break
                             self.find_coords()
                             self.set_num()
                             self.print_board()
                             bf = self.is_full()
-                            if((bf == True)):
+                            if(bf == True):
                                 print("Board is full, you lost")
                                 break
                         elif (input_dir == b'P'):           #down arrow
@@ -123,7 +123,7 @@ class Game_2048:
         flag = False
         for i in range(len(self.m_board)):
             for j in  range(len(self.m_board)):
-                if((self.m_board[i][j] != 0) and (len(self.all_coords) == 16)):
+                if((self.m_board[i][j] != 0) and (len(self.all_coords) >= 16)):
                     flag = True
                 else:
                     flag = False
@@ -140,7 +140,7 @@ class Game_2048:
         for i in range(board_size):
             for j in range(board_size):
                 if(self.m_board[i][j] > max):
-                    print("max = ", max)
+                    #print("max = ", max)
                     max = self.m_board[i][j]
         
         #if(max >= 2048):
@@ -191,9 +191,27 @@ class Game_2048:
                     self.m_board[current_x_coord][y_coord] = sum
                     self.m_board[prev_x_coord][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord          
-                    self.all_coords.pop()                 
+                    self.all_coords.pop()       
+                    self.all_nums.pop()          
                     break
             
+            
+            sum1 = 0
+            for i in range(board_size-1, 0, -1):
+                ii = i - 1
+                for j in range(board_size-1, -1, -1):
+                    if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
+                        print("self.m_board[i][j] == self.m_board[ii][j]", "i = ", i, "ii = ", ii, self.m_board[i][j], self.m_board[ii][j])
+                        sum1 = self.m_board[i][j] + self.m_board[ii][j]
+                        self.m_board[ii][j] = sum1
+                        self.m_board[i][j] = 0
+                        continue
+
+                ii -= 1
+                
+
+
+
             
                 
                 
