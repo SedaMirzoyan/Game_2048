@@ -122,8 +122,10 @@ class Game_2048:
     def is_full(self):
         flag = False
         for i in range(len(self.m_board)):
-            for j in  range(len(self.m_board)):
-                if((self.m_board[i][j] != 0) and (len(self.all_coords) >= 16)):
+            for j in range(len(self.m_board)):
+                if(self.m_board[i][j] != 0) and (len(self.all_coords) >= 16): 
+                #if((self.m_board[i][j] != 0) and (len(self.all_coords) >= 16) 
+                #   and (self.m_board[i][j] != self.m_board[i+1][j]) and (self.m_board[i][j] != self.m_board[i][j+1])):
                     flag = True
                 else:
                     flag = False
@@ -160,6 +162,11 @@ class Game_2048:
         dir_key = "up"
         sum = 0
 
+        n = len(self.all_coords)
+        limit = self.all_coords[n-1][0]
+        print("limit ", limit)
+
+
         for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
             y_coord = elem[1]
@@ -195,22 +202,8 @@ class Game_2048:
                     self.all_nums.pop()          
                     break
             
-            '''
-            sum1 = 0
-            for i in range(board_size-1, 0, -1):
-                ii = i - 1
-                for j in range(board_size-1, -1, -1):
-                    if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
-                        print("self.m_board[i][j] == self.m_board[ii][j]", "i = ", i, "ii = ", ii, self.m_board[i][j], self.m_board[ii][j])
-                        sum1 = self.m_board[i][j] + self.m_board[ii][j]
-                        self.m_board[ii][j] = sum1
-                        self.m_board[i][j] = 0
-                        #continue
 
-                ii -= 1
-            '''
-            
-            
+            '''       
             prev_pos, current_pos = 0, 0
             
             for i in range(board_size-1, 0, -1):        #not working
@@ -230,9 +223,44 @@ class Game_2048:
                         #continue
 
                 #ii -= 1   
-            
+            '''
+
+            '''     #half
+            if(limit < board_size-1 and limit > 0):
+                for i in range(board_size-1, limit+1, -1):        
+                    for j in range(board_size-1, -1, -1):
+                        ii = j
+                        #diff = i - ii
+                        #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
+                        if((self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[ii][j]) 
+                            and (i != ii) and  (i < prev_x_coord)):
+                            prev_pos = i
+                            current_pos = ii
+                            #print("self.m_board[i][j] == self.m_board[ii][j]", "i = ", i, "ii = ", ii, self.m_board[i][j], self.m_board[ii][j])
+                            print("prev_pos ", prev_pos, "current_pos ", current_pos)
+                            #sum1 = self.m_board[i][j] + self.m_board[ii][j]
+                            #self.m_board[ii][j] = sum1
+                            #self.m_board[i][j] = 0
+            '''
 
 
+            if(limit < board_size-1 and limit > 0):
+                for i in range(board_size-1, limit, -1):      
+                    for j in range(0, board_size):
+                        #ii = j
+                        #diff = i - ii
+                        #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
+                        if(self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[i-1][j]): 
+                            # and  (i < prev_x_coord)):
+                            #current_pos = ii
+                            print("prev_pos ")
+                            sum1 = self.m_board[i][j] + self.m_board[i-1][j]
+                            self.m_board[i-1][j] = sum1
+                            self.m_board[i][j] = self.m_board[i+1][j]
+
+                            self.all_coords[ind][0] = i-1          
+                            #self.all_coords.pop()       
+                            #self.all_nums.pop()  
 
             
                 
