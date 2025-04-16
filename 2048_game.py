@@ -183,6 +183,7 @@ class Game_2048:
                     self.m_board[current_x_coord][y_coord] = self.m_board[prev_x_coord][y_coord]
                     self.m_board[prev_x_coord][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord           
+                    print("first iffffffffffffffffffffff")
                     #continue
                 elif((self.m_board[current_x_coord][y_coord] != self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
@@ -191,6 +192,7 @@ class Game_2048:
                     #self.m_board[prev_x_coord][y_coord] = 0
                     #self.m_board[prev_x_coord+1][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord + 1
+                    print("second iffffffffffffffffffffff")
                     break
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)
@@ -201,7 +203,8 @@ class Game_2048:
                     self.m_board[prev_x_coord][y_coord] = 0 
                     self.all_coords[ind][0] = current_x_coord           
                     self.all_coords.pop()       
-                    self.all_nums.pop()       
+                    self.all_nums.pop()      
+                    print("third iffffffffffffffffffffff")
                     break
 
 
@@ -211,7 +214,7 @@ class Game_2048:
                         if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
                             sum1 = self.m_board[k][y_coord] +  self.m_board[k+1][y_coord]
                             self.m_board[k][y_coord] = sum1
-                            print("in iffffffffffffffff")  
+                            print("limit = ", limit)
                             self.m_board[k+1][y_coord] = 0   
                     else:
                         print("nnnnnnnnnn")
