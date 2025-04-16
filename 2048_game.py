@@ -80,7 +80,7 @@ class Game_2048:
 
 
     def generate_random_num(self):
-        random_num = random.choice([2, 4, 6])
+        random_num = random.choice([2, 4])
         self.all_nums.append(random_num)
 
         return random_num
@@ -122,8 +122,8 @@ class Game_2048:
     def is_full(self):
         flag = False
         for i in range(len(self.m_board)):
-            for j in range(len(self.m_board)):
-                if(self.m_board[i][j] != 0) and (len(self.all_coords) >= 16): 
+            for j in range(len(self.m_board)-1):
+                if((self.m_board[i][j] != 0) and (len(self.all_coords) >= 16)):#(self.m_board[i][j] != self.m_board[i][j+1]) ):
                 #if((self.m_board[i][j] != 0) and (len(self.all_coords) >= 16) 
                 #   and (self.m_board[i][j] != self.m_board[i+1][j]) and (self.m_board[i][j] != self.m_board[i][j+1])):
                     flag = True
@@ -164,12 +164,11 @@ class Game_2048:
 
         n = len(self.all_coords)
         limit = self.all_coords[n-1][0]
-        print("limit ", limit)
         nn = len(self.all_nums)
         print("all_nums length ", nn, "all coord length ", n)
 
 
-
+        sum1 = 0
         for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
             y_coord = elem[1]
@@ -199,117 +198,50 @@ class Game_2048:
                     #print("nums are equal")
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
-                    self.m_board[prev_x_coord][y_coord] = 0
-                    self.all_coords[ind][0] = current_x_coord          
+                    self.m_board[prev_x_coord][y_coord] = 0 
+                    self.all_coords[ind][0] = current_x_coord           
                     self.all_coords.pop()       
-                    self.all_nums.pop()          
+                    self.all_nums.pop()       
                     break
-            
 
-            '''       
-            prev_pos, current_pos = 0, 0
-            
-            for i in range(board_size-1, 0, -1):        #not working
-                for j in range(board_size-1, -1, -1):
-                    ii = j
-                    #diff = i - ii
-                    #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
-                    if((self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[ii][j]) 
-                       and (i != ii) and  (i < prev_x_coord)):
-                        prev_pos = i
-                        current_pos = ii
-                        #print("self.m_board[i][j] == self.m_board[ii][j]", "i = ", i, "ii = ", ii, self.m_board[i][j], self.m_board[ii][j])
-                        print("prev_pos ", prev_pos, "current_pos ", current_pos)
-                        #sum1 = self.m_board[i][j] + self.m_board[ii][j]
-                        #self.m_board[ii][j] = sum1
-                        #self.m_board[i][j] = 0
-                        #continue
 
-                #ii -= 1   
-            '''
+                print("limit = ", limit, "ycoord = ", y_coord)
+                for k in range(limit, board_size-1):
+                    if(limit != board_size-1):
+                        if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
+                            sum1 = self.m_board[k][y_coord] +  self.m_board[k+1][y_coord]
+                            self.m_board[k][y_coord] = sum1
+                            print("in iffffffffffffffff")  
+                            self.m_board[k+1][y_coord] = 0   
+                    else:
+                        print("nnnnnnnnnn")
 
-            '''     #half
-            if(limit < board_size-1 and limit > 0):
-                for i in range(board_size-1, limit+1, -1):        
-                    for j in range(0, board_size):
-                        ii = j
-                        #diff = i - ii
-                        #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
-                        if((self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[ii][j]) 
-                            and (i != ii) and  (i < prev_x_coord)):
-                            prev_pos = i
-                            current_pos = ii
-                            #print("self.m_board[i][j] == self.m_board[ii][j]", "i = ", i, "ii = ", ii, self.m_board[i][j], self.m_board[ii][j])
-                            print("prev_pos ", prev_pos, "current_pos ", current_pos)
-                            #sum1 = self.m_board[i][j] + self.m_board[ii][j]
-                            #self.m_board[ii][j] = sum1
-                            #self.m_board[i][j] = 0
-            '''
+              
 
             '''
-            if(limit < board_size-1 and limit > 0):
-                for i in range(board_size-1, limit, -1):      
-                    for j in range(0, board_size):
-                        #ii = j
-                        #diff = i - ii
-                        #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
-                        if(self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[i-1][j]): 
-                            # and  (i < prev_x_coord)):
-                            #current_pos = ii
-                            print("prev_pos ")
-                            sum1 = self.m_board[i][j] + self.m_board[i-1][j]
-                            self.m_board[i-1][j] = sum1
-                            self.m_board[i][j] = self.m_board[i+1][j]
-
-                            self.all_coords[ind][0] = i-1          
-                            #self.all_coords.pop()       
-                            #self.all_nums.pop()  
-                            break
-            '''
-            '''         #half done
-            for i in range(board_size-1, -1, -1):      
+            sum1 = 0
+            for i in range(board_size-1, 0, -1):      
                 for j in range(0, board_size):
-                    #ii = j
-                    #diff = i - ii
-                    #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
                     if(self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[i-1][j]): 
-                        # and  (i < prev_x_coord)):
-                        #current_pos = ii
-                        print("self.m_board[i][j] == self.m_board[i-1][j] ", "i = ", i, "i-1 = ", i-1,  "j =", j, self.m_board[i][j], self.m_board[i-1][j])
-                        sum1 = self.m_board[i][j] + self.m_board[i-1][j]
+                        sum1 = self.m_board[i-1][j] + self.m_board[i][j]
                         self.m_board[i-1][j] = sum1
-                        self.m_board[i][j] = self.m_board[i+1][j]
+                        self.m_board[i][j] = 0
+                        print("iffffffffffffffffffff")
 
-                        self.all_coords[ind][0] = i-1          
+
+      
+                        for k in range(i, board_size - 1):
+                            self.m_board[k][j] = self.m_board[k+1][j] 
+
+
+                        #self.all_coords[n-1][0] = i-1       
                         #self.all_coords.pop()       
-                        #self.all_nums.pop()  
-                        break
+                        #self.all_nums.pop()      
+
+                        self.m_board[board_size-1][j] = 0
             '''
 
-
-            for i in range(board_size-2, -1, -1):      
-                for j in range(0, board_size):
-                    #ii = j
-                    #diff = i - ii
-                    #if((self.m_board[i][j] == self.m_board[ii][j]) and (self.m_board[i][j] != 0)):
-                    if(self.m_board[i][j] != 0) and (self.m_board[i][j] == self.m_board[i+1][j]): 
-                        # and  (i < prev_x_coord)):
-                        #current_pos = ii
-                        print("self.m_board[i][j] == self.m_board[i+1][j] ", "i = ", i, "i+1 = ", i+1,  "j =", j, self.m_board[i][j], self.m_board[i+1][j])
-                        sum1 = self.m_board[i][j] + self.m_board[i+1][j]
-                        self.m_board[i][j] = sum1
-                        #self.m_board[i+1][j] = self.m_board[i+2][j]
-
-                        self.all_coords[ind][0] = i     
-                        self.all_coords.pop()       
-                        self.all_nums.pop()    
-                        if(i != board_size - 1):
-                            self.m_board[i+1][j] = self.m_board[i+2][j]
-                        else:
-                            self.m_board[i+1][j] = 0
-                        #self.all_coords.pop()       
-                        #self.all_nums.pop()  
-                        #break           
+     
                 
                 
      
