@@ -264,8 +264,8 @@ class Game_2048:
                     #print("nums are NOT equal")
                     self.m_board[current_x_coord+1][y_coord] = self.m_board[prev_x_coord][y_coord]
                     #self.m_board[prev_x_coord][y_coord] = 0
-                    #self.m_board[prev_x_coord+1][y_coord] = 0
-                    self.all_coords[ind][0] = current_x_coord + 1
+                    #self.m_board[prev_x_coord-1][y_coord] = 0
+                    self.all_coords[ind][0] = current_x_coord - 1
                     break
                 
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
