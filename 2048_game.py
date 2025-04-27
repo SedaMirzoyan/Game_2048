@@ -69,6 +69,19 @@ class Game_2048:
                                 break
                         elif (input_dir == b'P'):           #down arrow
                             print("down")
+                            self.move_down()
+                            #self.print_board()
+                            fm1 = self.find_max()
+                            if(fm1 == True):
+                                self.print_board()
+                                break
+                            self.find_coords()
+                            self.set_num()
+                            self.print_board()
+                            bf1 = self.is_full()
+                            if(bf1 == True):
+                                print("Board is full, you lost")
+                                break
                     else:
                         print("Incorrect input, please enter one of the arrow keys")
             except:
@@ -158,12 +171,12 @@ class Game_2048:
     
     def move_up(self):
         print("calling move up")
-        x_coord = 0
+        #x_coord = 0
         dir_key = "up"
         sum = 0
 
         n = len(self.all_coords)
-        limit = self.all_coords[n-1][0]
+        limit = self.all_coords[-1][0]
         nn = len(self.all_nums)
         print("all_nums length ", nn, "all coord length ", n)
 
@@ -171,7 +184,6 @@ class Game_2048:
         for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
             y_coord = elem[1]
-            #print( "x_coord in for = ", x_coord)
             while(x_coord > 0):
                 prev_x_coord = x_coord
                 #print("prev_x_coord ", prev_x_coord)
@@ -182,7 +194,6 @@ class Game_2048:
                     self.m_board[current_x_coord][y_coord] = self.m_board[prev_x_coord][y_coord]
                     self.m_board[prev_x_coord][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord           
-                    print("first up iffffffffffffffffffffff")
                     #continue
                 elif((self.m_board[current_x_coord][y_coord] != self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
@@ -191,37 +202,24 @@ class Game_2048:
                     #self.m_board[prev_x_coord][y_coord] = 0
                     #self.m_board[prev_x_coord+1][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord + 1
-                    print("second up iffffffffffffffffffffff")
                     break
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
-                     and (self.m_board[current_x_coord][y_coord] != 0)
-                     and (current_x_coord + 1 == prev_x_coord)):
-                    #print("nums are equal")
+                     and (self.m_board[current_x_coord][y_coord] != 0)):
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
                     self.m_board[prev_x_coord][y_coord] = 0 
                     self.all_coords[ind][0] = current_x_coord           
                     self.all_coords.pop()       
                     self.all_nums.pop()      
-                    print("third up iffffffffffffffffffffff")
                     break
 
-
-                print("limit = ", limit, "ycoord = ", y_coord)
                 for k in range(limit, board_size-1):
-                    if(limit != board_size-1):
-                        if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
-                            sum_remaning = self.m_board[k][y_coord] +  self.m_board[k+1][y_coord]
-                            self.m_board[k][y_coord] = sum_remaning
-                            print("limit = ", limit)
-                            self.m_board[k+1][y_coord] = 0   
+                    if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
+                        sum_remaning = self.m_board[k][y_coord] + self.m_board[k+1][y_coord]
+                        self.m_board[k][y_coord] = sum_remaning
+                        self.m_board[k+1][y_coord] = 0   
 
 
-            
-     
-                
-                
-     
 
 
     def move_left(self):   
@@ -232,15 +230,15 @@ class Game_2048:
         pass
 
 
-    #TODO
-    def move_down(self):
+
+    def move_down(self):        
         print("calling move down")
-        x_coord = 0
+        #x_coord = 0
         dir_key = "down"
         sum = 0
 
         n = len(self.all_coords)
-        limit = self.all_coords[n-1][0]
+        limit = self.all_coords[-1][0]
         nn = len(self.all_nums)
         print("all_nums length ", nn, "all coord length ", n)
 
@@ -248,18 +246,18 @@ class Game_2048:
         for ind, elem in enumerate(self.all_coords):    
             x_coord = elem[0]
             y_coord = elem[1]
-            #print( "x_coord in for = ", x_coord)
-            while(x_coord > 0):
+            print( "x_coord in for = ", x_coord, "ycoord ", y_coord)
+            while(x_coord < board_size-1):
                 prev_x_coord = x_coord
-                #print("prev_x_coord ", prev_x_coord)
-                x_coord += self.directions[dir_key][0] 
+                print("prev_x_coord ", prev_x_coord)
+                x_coord += self.directions[dir_key][0]
                 current_x_coord = x_coord      
-                #print("current_x_coord ", current_x_coord)
+                print("current_x_coord ", current_x_coord)  
+
                 if((self.m_board[current_x_coord][y_coord] == 0) and (self.m_board[prev_x_coord][y_coord] != 0)):
                     self.m_board[current_x_coord][y_coord] = self.m_board[prev_x_coord][y_coord]
                     self.m_board[prev_x_coord][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord           
-                    print("first down iffffffffffffffffffffff")
                     #continue
                 elif((self.m_board[current_x_coord][y_coord] != self.m_board[prev_x_coord][y_coord])
                      and (self.m_board[current_x_coord][y_coord] != 0)):  #and (self.m_board[prev_x_coord][y_coord] != self.m_board[current_x_coord-1][y_coord])):
@@ -268,11 +266,11 @@ class Game_2048:
                     #self.m_board[prev_x_coord][y_coord] = 0
                     #self.m_board[prev_x_coord+1][y_coord] = 0
                     self.all_coords[ind][0] = current_x_coord + 1
-                    print("second down iffffffffffffffffffffff")
                     break
+                
                 elif((self.m_board[current_x_coord][y_coord] == self.m_board[prev_x_coord][y_coord])
-                     and (self.m_board[current_x_coord][y_coord] != 0)
-                     and (current_x_coord + 1 == prev_x_coord)):
+                     and (self.m_board[current_x_coord][y_coord] != 0)):
+                     #and (current_x_coord + 1 == prev_x_coord)): 
                     #print("nums are equal")
                     sum = self.m_board[current_x_coord][y_coord] + self.m_board[prev_x_coord][y_coord]
                     self.m_board[current_x_coord][y_coord] = sum
@@ -280,19 +278,23 @@ class Game_2048:
                     self.all_coords[ind][0] = current_x_coord           
                     self.all_coords.pop()       
                     self.all_nums.pop()      
-                    print("third down iffffffffffffffffffffff")
                     break
+                
+                for k in range(0, board_size-1):
+                    if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
+                        sum_remaning = self.m_board[k][y_coord] + self.m_board[k+1][y_coord]
+                        self.m_board[k][y_coord] = sum_remaning
+                        print("limit = ", limit)
+                        self.m_board[k+1][y_coord] = 0   
+                
+                
+        
 
-                print("limit = ", limit, "ycoord = ", y_coord)
-                for k in range(limit, board_size-1):
-                    if(limit != board_size-1):
-                        if(self.m_board[k][y_coord] == self.m_board[k+1][y_coord]):
-                            sum_remaning = self.m_board[k][y_coord] +  self.m_board[k+1][y_coord]
-                            self.m_board[k][y_coord] = sum_remaning
-                            print("limit = ", limit)
-                            self.m_board[k+1][y_coord] = 0   
 
 
+
+        
+            
 
 def main():
  
